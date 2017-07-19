@@ -1,0 +1,21 @@
+{
+  "name": "web_interface",
+  "version": "0.0.1",
+  "description": "Evaluation Interface for CS6200 at Northeastern University",
+  "main": "server.js",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.13.4",
+    "express-session": "^1.15.3",
+    "mongoose": "^4.4.15",
+    "morgan": "^1.8.2",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "q": "^1.5.0"
+  },
+  "devDependencies": {},
+  "author": "Vinod Vishwanath",
+  "license": "ISC"
+}

@@ -1,0 +1,29 @@
+.container .wi-center {
+    margin:10px auto;
+    width: 100px;
+    display: block;
+}
+
+.wi-margin-30 {
+    margin: 30px 0 30px 0;
+}
+
+.wi-small-input {
+    width: 50px;
+    display: inline;
+}
+
+.wi-eval-div {
+
+    margin: auto;
+    margin-top: 5px;
+    width: 120px;
+}
+
+.wi-eval-btn {
+    width: 100px;
+}
+
+.container label {
+    margin: 5px 0 5px 0;
+}
