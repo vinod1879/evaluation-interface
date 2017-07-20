@@ -1,50 +1,43 @@
 <ng-include src="'views/common/header.view.html'"></ng-include>
 <div class="container">
-
-
-    <div class="container" ng-if="model.urls.length > 0">
+    <div class="container">
         <div class="container-fluid row">
             <a class="btn col-xs-1"
-               ng-disabled="model.currentIndex == 0"
+               ng-disabled="!model.previousDocument"
                ng-click="model.previous()">
                 <span class="glyphicon glyphicon-arrow-left"></span>
             </a>
             <div class="col-xs-10 text-center">
                 <label>Document</label>
                 <input type="text" class="form-control wi-small-input" ng-model="model.currentIndex" />
-                <label>  of {{model.urls.length}}</label>
             </div>
             <a class="btn col-xs-1"
-               ng-disabled="model.currentIndex >= model.urls.length"
+               ng-disabled="!model.nextDocument"
                ng-click="model.next()">
                 <span class="glyphicon glyphicon-arrow-right"></span>
             </a>
         </div>
-        <div class="text-center">Topic: {{model.topic}}</div>
+        <div class="text-center">Topic: {{model.currentDocument.topic}}</div>
         <div class="text-center wi-margin-30">
-            <a target="_blank" href="model.urls[model.currentIndex].url">{{model.urls[model.currentIndex].url}}</a>
+            <a target="_blank" href="model.currentDocument.url">{{model.currentDocument.url}}</a>
         </div>
         <div class="wi-eval-div">
             <a ng-click="model.rateGood()"
                class="btn btn-success wi-eval-btn">Good</a>
-            <span ng-if="model.urls[model.currentIndex].rating=='2'"
+            <span ng-if="model.isRatedGood()"
                   class="glyphicon glyphicon-ok"></span>
         </div>
         <div class="wi-eval-div">
             <a ng-click="model.rateAverage()"
                class="btn btn-warning wi-eval-btn">Average</a>
-            <span ng-if="model.urls[model.currentIndex].rating=='1'"
+            <span ng-if="model.isRatedAverage()"
                   class="glyphicon glyphicon-ok"></span>
         </div>
         <div class="wi-eval-div">
             <a ng-click="model.rateBad()"
                class="btn btn-danger wi-eval-btn">Bad</a>
-            <span ng-if="model.urls[model.currentIndex].rating=='0'"
+            <span ng-if="model.isRatedBad()"
                   class="glyphicon glyphicon-ok"></span>
-        </div>
-        <div class="wi-margin-30">
-            <a class="btn btn-primary"
-               ng-if="model.reportAvailable">See Report</a>
         </div>
     </div>
 </div>

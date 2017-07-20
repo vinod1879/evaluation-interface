@@ -3,74 +3,94 @@
         .module('EvalApp')
         .controller('evaluationController', evaluationController);
     
-    function evaluationController(status) {
+    function evaluationController(status, $routeParams, $location, documentService) {
         var model = this;
         model.status = status;
         model.homeActive = 'active';
-        model.urls = [];
-        model.parse = parseUrls;
-        model.currentIndex = 0;
-        model.jumpIndex = 1;
-        model.reportAvailable = false;
-        model.isEvaluating = true;
+        model.currentIndex = parseInt($routeParams['docId']);
 
         model.next = next;
         model.previous = previous;
         model.rateGood = rateGood;
         model.rateAverage = rateAverage;
         model.rateBad = rateBad;
+        model.isRatedGood = isRatedGood;
+        model.isRatedBad = isRatedBad;
+        model.isRatedAverage = isRatedAverage;
 
-        function parseUrls(evaluator, text) {
-
-            var lines = text.split('\n');
-            model.topic = '';
-
-            for (i in lines){
-                var line = lines[i].trim();
-
-                if (line.length > 0) {
-
-                    if (line[0] !== '#')
-                        model.urls.push({url: line, evaluator: evaluator, rating: null});
-                    else
-                        model.topic = line;
-                }
-            }
-        }
-
-        function isEvaluationPending() {
-            for (i in model.urls) {
-                if (model.urls[i].rating == null)
-                    return true;
-            }
-            return false;
+        init();
+        function init() {
+            documentService
+                .findById(model.currentIndex)
+                .then(
+                    function (response) {
+                        model.currentDocument = response.data.current;
+                        model.nextDocument = response.data.next;
+                        model.previousDocument = response.data.previous;
+                    }
+                );
         }
 
         function next() {
-            if (model.currentIndex < model.urls.length-1)
-                model.currentIndex += 1;
+            $location.url('/document/' + (model.currentIndex+1));
         }
 
         function previous() {
-            model.currentIndex -= 1;
+            $location.url('/document/' + (model.currentIndex-1));
         }
 
         function rateGood() {
-            rate('2');
+            rate(2);
         }
 
         function rateAverage() {
-            rate('1');
+            rate(1);
         }
 
         function rateBad() {
-            rate('0');
+            rate(0);
         }
 
         function rate(rating) {
-            model.urls[model.currentIndex].rating = rating;
-            model.reportAvailable = !isEvaluationPending();
-            next();
+
+            documentService
+                .updateEvaluation(model.currentIndex, rating)
+                .then(
+                    function (response) {
+                        if (model.nextDocument) {
+                            next();
+                        }
+                        else {
+                            $location.url('/');
+                        }
+                    }
+                );
+        }
+
+        function isRatedGood() {
+            return checkRating(2);
+        }
+
+        function isRatedAverage() {
+            return checkRating(1);
+        }
+
+        function isRatedBad() {
+            return checkRating(0);
+        }
+
+        function checkRating(rating) {
+            var evaluator = status.user.firstName;
+
+            if (!model.currentDocument || !model.currentDocument.evaluation)
+                return false;
+
+            for (var i in model.currentDocument.evaluation) {
+                if (model.currentDocument.evaluation[i].evaluator == evaluator) {
+                    return model.currentDocument.evaluation[i].rating == rating;
+                }
+            }
+            return false;
         }
     }
 })();

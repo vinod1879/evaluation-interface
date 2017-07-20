@@ -18,9 +18,25 @@ function findAllDocuments() {
 }
 
 function updateEvaluation(documentId, evaluator, rating) {
-    return documentModel.update({_id: documentId},
-        {'$set': {'evaluation.$.evaluator': evaluator,
-        'evaluation.$.rating': rating}});
+
+    return documentModel.findOne({_id: documentId})
+        .then(
+            function (document) {
+                var updated = false;
+                for (var i in document.evaluation) {
+                    if (document.evaluation[i].evaluator == evaluator) {
+                        document.evaluation[i].rating = rating;
+                        updated = true;
+                        break;
+                    }
+                }
+
+                if (!updated) {
+                    document.evaluation.push({evaluator: evaluator, rating: rating});
+                }
+                return document.save();
+            }
+        );
 }
 
 function createDocuments(documents) {
