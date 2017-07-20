@@ -24,6 +24,9 @@
                     ng-class="model.documentActive">
                     <a href="/document/new">Add Documents</a>
                 </li>
+                <li ng-if="model.status.loggedIn">
+                    <a href="/api/download/report" target="_blank">Download Report</a>
+                </li>
                 <li ng-if="model.status.loggedIn"
                     ng-class="model.logoutActive">
                     <a href="/logout">Logout</a>

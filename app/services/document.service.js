@@ -4,11 +4,13 @@ function documentService(app) {
     app.put ('/api/document/:documentId', isLoggedIn, rateDocument);
     app.get ('/api/document', isLoggedIn, findAllDocuments);
     app.get ('/api/document/:documentId', isLoggedIn, findById);
+    app.get ('/api/download/report', isLoggedIn, buildReport);
 }
 
 module.exports = documentService;
 
 var documentModel = require('../model/document/document.model');
+var userModel = require('../model/user/user.model');
 
 // MIDDLEWARE
 
@@ -108,6 +110,38 @@ function findAllDocuments(req, res) {
             },
             function (error) {
                 res.status(401).json({message: error.message});
+            }
+        );
+}
+
+function buildReport(req, res) {
+    documentModel
+        .find()
+        .sort({queryId: 1, _id: 1, 'evaluation.evaluator': 1})
+        .then(
+            function (documents) {
+                var text = '';
+                text += 'queryID' + '\t' + 'DOCID' + '\t';
+                text += 'judge1' + '\t' + 'judge2' + '\t';
+                text += 'judge3' + '\n';
+
+                for (var i in documents) {
+                    var doc = documents[i];
+                    text += doc.queryId + '\t';
+                    text += doc.url;
+
+                    for (var j=0; j < doc.evaluation.length; j++) {
+                        text += '\t' + doc.evaluation[j].rating;
+                    }
+                    text += '\n';
+                }
+                text = text.trim();
+
+                res.set({"Content-Disposition": "attachment; filename=\"report.txt\""});
+                res.send(text);
+            },
+            function (error) {
+                res.status(401).json({message: 'Download Failed!'});
             }
         );
 }
