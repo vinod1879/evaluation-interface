@@ -1,3 +1,18 @@
-<div>
-
+<ng-include src="'views/common/header.view.html'"></ng-include>
+<div class="container">
+    <div ng-show="model.message" class="alert alert-info">
+        {{model.message}}
+        <a href="#" ng-click="model.message=''" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a>
+    </div>
+    <label>Evauator</label>
+    <input type="text"
+           class="form-control"
+           value="{{model.status.user.firstName}}"
+           ng-disabled="true" />
+    <label>Enter URLs</label>
+    <textarea class="form-control"
+              ng-model="inputText"
+              rows="20"
+              cols="75"></textarea>
+    <a class="btn btn-primary wi-center" ng-click="model.addBulk(inputText)">Submit</a>
 </div>

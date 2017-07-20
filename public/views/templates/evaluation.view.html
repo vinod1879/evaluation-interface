@@ -1,16 +1,7 @@
 <ng-include src="'views/common/header.view.html'"></ng-include>
 <div class="container">
 
-    <div class="container" ng-if="model.urls.length===0">
-        <label>Evauator</label>
-        <input type="text" class="form-control" ng-model="evaluator" />
-        <label>Enter URLs</label>
-        <textarea class="form-control"
-                  ng-model="inputText"
-                  rows="20"
-                  cols="75"></textarea>
-        <a class="btn btn-primary wi-center" ng-click="model.parse(evaluator, inputText)">Parse</a>
-    </div>
+
     <div class="container" ng-if="model.urls.length > 0">
         <div class="container-fluid row">
             <a class="btn col-xs-1"

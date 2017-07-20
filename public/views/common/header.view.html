@@ -21,6 +21,10 @@
                     <a href="/">Home</a>
                 </li>
                 <li ng-if="model.status.loggedIn"
+                    ng-class="model.documentActive">
+                    <a href="/document/new">Add Documents</a>
+                </li>
+                <li ng-if="model.status.loggedIn"
                     ng-class="model.logoutActive">
                     <a href="/logout">Logout</a>
                 </li>

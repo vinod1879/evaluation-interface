@@ -14,7 +14,7 @@ documentModel.createDocuments = createDocuments;
 module.exports = documentModel;
 
 function findAllDocuments() {
-    return documentModel.find();
+    return documentModel.find().sort({_id: 1});
 }
 
 function updateEvaluation(documentId, evaluator, rating) {

@@ -8,10 +8,20 @@
         $locationProvider.html5Mode(true);
 
         $routeProvider
-            .when('/', evalPage())
+            .when('/', homePage())
+            .when('/document/new', newDocumentPage())
+            .when('/document/:docId', evalPage())
             .when('/login', loginPage())
             .when('/logout', logoutPage())
-            .otherwise('/', evalPage());
+            .otherwise('/', homePage());
+    }
+
+    function homePage() {
+        return makeRoute('views/templates/home.view.html', 'homeController', 'model', true);
+    }
+
+    function newDocumentPage() {
+        return makeRoute('views/templates/add.view.html', 'addController', 'model', true);
     }
 
     function evalPage() {

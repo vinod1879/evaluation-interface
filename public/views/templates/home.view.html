@@ -1,10 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<ng-include src="'views/common/header.view.html'"></ng-include>
+<div class="container">
+    <ul class="list-group">
+        <li>
+            <div class="pull-right">{{model.documents.length || 0}} documents</div>
+        </li>
+        <li class="list-group-item active">
+            <div class="row">
+                <div class="col-xs-8">
+                    Document
+                </div>
+                <div class="col-xs-2">
+                    Rating
+                </div>
+                <div class="col-xs-2">
+                    Edit
+                </div>
+            </div>
+        </li>
 
-</body>
-</html>
+        <li class="list-group-item" ng-repeat="document in model.documents">
+            <div class="row">
+                <div class="col-xs-8" style="overflow: hidden;">
+                    {{document.url}}
+                </div>
+                <div class="col-xs-2">
+                    {{model.getRating(document)}}
+                </div>
+                <div class="col-xs-2">
+                    <a href="/document/{{document._id}}">
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </a>
+                </div>
+            </div>
+        </li>
+
+        <li class="list-group-item" ng-if="!model.documents || model.documents.length == 0">
+            <div class="row">
+                <div class="col-xs-12">
+                    No Documents
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
