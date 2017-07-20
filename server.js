@@ -4,6 +4,7 @@ var express = require('express'),
     morgan  = require('morgan'),
     cookies = require('cookie-parser'),
     session = require('express-session'),
+    passport = require('passport')
     config  = require('./config'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose');
@@ -19,7 +20,7 @@ app.use(passport.session());
 
 require('./app/app')(app);
 
-mongoose.connect(config.connectionString);
+mongoose.connect(config.connectionString, {useMongoClient: true});
 
 // MAIN CATCHALL ROUTE
 // =========================================

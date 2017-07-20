@@ -9,29 +9,39 @@
 
         $routeProvider
             .when('/', evalPage())
-            .when('/login', loginPage)
+            .when('/login', loginPage())
             .otherwise('/', evalPage());
     }
 
     function evalPage() {
-        return makeRoute('views/templates/evaluation.view.html', 'evaluationController', 'model');
+        return makeRoute('views/templates/evaluation.view.html', 'evaluationController', 'model', true);
     }
 
     function loginPage() {
-        return makeRoute('views/templates/login.view.html', 'loginController', 'model');
+        return makeRoute('views/templates/login.view.html', 'loginController', 'model', false);
     }
 
-    function makeRoute(path, controller, alias) {
+    function makeRoute(path, controller, alias, authenticate) {
 
-        return {
-            templateUrl: path,
-            controller: controller,
-            controllerAs: alias,
-            resolve: { status: checkAuthentication}
+        if (authenticate) {
+            return {
+                templateUrl: path,
+                controller: controller,
+                controllerAs: alias,
+                resolve: { status: checkAuthentication}
+            }
+        }
+        else {
+            return {
+                templateUrl: path,
+                controller: controller,
+                controllerAs: alias,
+                resolve: { status: resolveDefault}
+            }
         }
     }
 
-    function checkAuthentication($q, $http) {
+    function checkAuthentication($q, $http, $location) {
 
         var deferred = $q.defer();
         $http
@@ -43,7 +53,24 @@
                 },
                 function (error) {
                     console.log(error);
-                    deferred.resolve( {loggedIn: false, user: null} );
+                    deferred.reject();
+                    $location.url('/login');
+                }
+            );
+        return deferred.promise;
+    }
+
+    function resolveDefault($q, $http, $location) {
+        var deferred = $q.defer();
+        $http
+            .get('/api/authenticate')
+            .then(
+                function (response) {
+                    deferred.reject();
+                    $location.url('/');
+                },
+                function (error) {
+                    deferred.resolve(false);
                 }
             );
         return deferred.promise;

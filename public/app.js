@@ -1,4 +1,4 @@
 (function () {
     angular
-        .module('EvalApp', []);
+        .module('EvalApp', ['ngRoute']);
 })();

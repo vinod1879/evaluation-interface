@@ -1,3 +1,24 @@
-<div>
-    login
+<div class="container">
+    <h3 class="text-center">Login to Student Forum</h3>
+    <div class="wbd-form-login center-block">
+        <div ng-show="model.message" class="alert alert-info">
+            {{model.message}}
+            <a href="#" ng-click="model.message=''" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a>
+        </div>
+        <input ng-model="username"
+               type="text"
+               class="form-control"
+               placeholder="username"/>
+
+        <input ng-model="password"
+               type="password"
+               class="form-control"
+               placeholder="password"/>
+
+        <a ng-click="model.login(username, password)"
+           class="btn btn-primary btn-block wbd-x-space-up">
+            Login
+        </a>
+
+    </div>
 </div>
