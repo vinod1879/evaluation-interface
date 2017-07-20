@@ -10,6 +10,7 @@
         $routeProvider
             .when('/', evalPage())
             .when('/login', loginPage())
+            .when('/logout', logoutPage())
             .otherwise('/', evalPage());
     }
 
@@ -19,6 +20,14 @@
 
     function loginPage() {
         return makeRoute('views/templates/login.view.html', 'loginController', 'model', false);
+    }
+
+    function logoutPage() {
+        return {
+            template: '<p>Logging out...</p>',
+            controller: 'logoutController',
+            controllerAs: 'model'
+        }
     }
 
     function makeRoute(path, controller, alias, authenticate) {
@@ -49,6 +58,7 @@
             .then(
                 function (response) {
                     var user = response.data;
+                    console.log('Resolved with status OK');
                     deferred.resolve( {loggedIn: true, user: user} );
                 },
                 function (error) {

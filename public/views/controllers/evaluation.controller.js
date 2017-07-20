@@ -3,8 +3,10 @@
         .module('EvalApp')
         .controller('evaluationController', evaluationController);
     
-    function evaluationController() {
+    function evaluationController(status) {
         var model = this;
+        model.status = status;
+        model.homeActive = 'active';
         model.urls = [];
         model.parse = parseUrls;
         model.currentIndex = 0;
