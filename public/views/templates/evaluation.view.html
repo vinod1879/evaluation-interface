@@ -11,6 +11,7 @@
                 <label>Document</label>
                 <input type="text"
                        class="form-control wi-small-input"
+                       ng-model-options='{ debounce: 1000 }'
                        ng-change="model.jumpToDocument()"
                        ng-model="model.currentIndex" />
             </div>
