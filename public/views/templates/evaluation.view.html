@@ -9,7 +9,10 @@
             </a>
             <div class="col-xs-10 text-center">
                 <label>Document</label>
-                <input type="text" class="form-control wi-small-input" ng-model="model.currentIndex" />
+                <input type="text"
+                       class="form-control wi-small-input"
+                       ng-change="model.jumpToDocument()"
+                       ng-model="model.currentIndex" />
             </div>
             <a class="btn col-xs-1"
                ng-disabled="!model.nextDocument"

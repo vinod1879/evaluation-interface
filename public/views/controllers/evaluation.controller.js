@@ -17,6 +17,7 @@
         model.isRatedGood = isRatedGood;
         model.isRatedBad = isRatedBad;
         model.isRatedAverage = isRatedAverage;
+        model.jumpToDocument = jumpToDocument;
 
         init();
         function init() {
@@ -24,11 +25,23 @@
                 .findById(model.currentIndex)
                 .then(
                     function (response) {
+                        if (response.data.current == null) {
+                            alert('No such document!');
+                            $location.url('/document/');
+                            return;
+                        }
                         model.currentDocument = response.data.current;
                         model.nextDocument = response.data.next;
                         model.previousDocument = response.data.previous;
                     }
                 );
+        }
+
+        function jumpToDocument() {
+            var orig = parseInt($routeParams['docId']);
+            if (model.currentIndex != "" && orig != model.currentIndex) {
+                $location.url('/document/' + model.currentIndex);
+            }
         }
 
         function next() {
