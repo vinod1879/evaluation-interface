@@ -121,13 +121,14 @@ function buildReport(req, res) {
         .then(
             function (documents) {
                 var text = '';
-                text += 'queryID' + '\t' + 'DOCID' + '\t';
+                text += 'queryID' + '\t' + 'DUMMY' + '\t' + 'DOCID' + '\t';
                 text += 'judge1' + '\t' + 'judge2' + '\t';
                 text += 'judge3' + '\n';
 
                 for (var i in documents) {
                     var doc = documents[i];
                     text += doc.queryId + '\t';
+                    text += '0\t';
                     text += doc.url;
 
                     for (var j=0; j < doc.evaluation.length; j++) {
